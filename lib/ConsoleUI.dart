@@ -1,6 +1,14 @@
 import 'dart:io';
 
 class ConsoleUI{
+  void header(){
+    var header = ["    ____  __  _______  __ __        ________  ______", "   / __ \\/  |/  / __ \\/ //_/ ____  /_  __/ / / /  _/", "  / /_/ / /|_/ / /_/ / , <  /___/   / / / /_/ // /  ", "  \\____/_/  /_/\\____/_/|_|         /_/  \\____/___/  "];
+    for (var i = 0; i < header.length; i++) {
+      stdout.write(header[i]);
+      stdout.write('\n');
+    }
+    stdout.write('\n');
+  }
   void welcome(){
     stdout.write('Welcome to Omok!\n');
   }
@@ -10,13 +18,13 @@ class ConsoleUI{
   }
 
   void defaultURL(){
-    print('Setting default URL...\n');
+    stdout.write('Setting default URL...\n\n');
   }
 
   void promptStrategy(var strategies){
     stdout.write('Select from the following Strategies (Default is 1): \n');
     for (var i = 0; i < strategies.length; i++) {
-      print('[${i+1}] ${strategies[i]} ');
+      stdout.write('[${i+1}] ${strategies[i]} \n');
     }
     stdout.write('Strategy: ');
   }
@@ -26,18 +34,20 @@ class ConsoleUI{
   }
 
   void printVar(var val){
-      stdout.write('$val\n');
+    stdout.write('$val\n');
   }
 
   void selectedStrategy(var selection){
-    print('You selected: $selection\n');
+    stdout.write('You selected: $selection\n\n');
   }
 
   void errorMessage(){
-    print('Error');
+    stdout.write('Error\n');
+    stdout.write('\n');
   }
 
   void invalidInput(){
-    print('Invalid Input');
+    stdout.write('Invalid Input\n');
+    stdout.write('\n');
   }
 }

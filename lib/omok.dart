@@ -12,6 +12,7 @@ void main() async{
   var client = WebClient();
 
   var ui = ConsoleUI();
+  ui.header();
   ui.welcome();
 
   ui.promptURL(client.defaultServer());
@@ -29,9 +30,10 @@ void main() async{
   ui.promptStrategy(rp.strategies());
 
   String? line = stdin.readLineSync();
-  if(line == null || line.isEmpty){
-    line = '1';
-  }
+  line = (line==null||line.isEmpty) ? '1' : line;
+  //if(line == null || line.isEmpty){
+  //  line = '1';
+  //}
   try{
     var selection = int.parse(line);
     if(selection == 0 || selection > rp.strategies().length){
@@ -40,7 +42,7 @@ void main() async{
       ui.selectedStrategy(rp.strategies()[selection-1]);
     }
   } on FormatException{
-      ui.errorMessage();
+      ui.invalidInput();
   }
 
   ui.promptMove();
