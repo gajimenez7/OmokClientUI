@@ -51,12 +51,14 @@ void main() async{
   }else{
     List<String> inputs = line.split(" ");
     try{
-      var mvSelection1 = int.tryParse(inputs[0]);
-      var mvSelection2 = int.tryParse(inputs[1]);
+      var mvSelection1 = int.parse(inputs[0]);
+      var mvSelection2 = int.parse(inputs[1]);
       ui.printVar(mvSelection1);
       ui.printVar(mvSelection2);
+    } on FormatException{
+      ui.invalidInput();
     } on RangeError{
-        ui.invalidInput();
+      ui.invalidInput();
     }
   }
 }
