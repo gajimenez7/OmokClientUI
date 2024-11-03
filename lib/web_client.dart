@@ -1,31 +1,30 @@
-class WebClient{
+class WebClient {
   var theDefaultUrl = 'https://www.cs.utep.edu/cheon/cs3360/project/omok/info';
   var theResponse;
   var theResponseBody;
 
-  bool isValid(var url){
-    return !(url == null || url.isEmpty);
+  bool isValid(var url) {
+    return url != null && url.isNotEmpty;
   }
 
-  void setResponse(var response){
+  void setResponse(var response) {
     this.theResponse = response;
     setResponseBody();
   }
 
-  void setResponseBody(){
-    this.theResponseBody = this.theResponse.body;
+  void setResponseBody() {
+    this.theResponseBody = this.theResponse?.body;
   }
 
-  String defaultServer(){
+  String defaultServer() {
     return theDefaultUrl;
   }
 
-  String response(){
+  String response() {
     return this.theResponse;
   }
 
-  String responseBody(){
+  String responseBody() {
     return this.theResponseBody;
   }
-
 }
