@@ -12,7 +12,7 @@ class Controller {
   var ui = ConsoleUI();
   var rp = ResponseParser();
 
-  void start() async{
+  void start() async {
     ui.header();
     ui.welcome();
 
