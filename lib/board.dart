@@ -4,8 +4,9 @@ import 'console_ui.dart';
 class Board {
   var ui = ConsoleUI();
 
-  var playerCoords = List.filled(15, List.filled(15, 0));
-  var compCoords = List.filled(15, List.filled(15, 0));
+  var playerCoords = List.generate(15, (_) => List.filled(15, 0));
+
+  var compCoords = List.generate(15, (_) => List.filled(15, 0));
 
   var playerX;
   var playerY;

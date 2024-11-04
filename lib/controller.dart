@@ -4,7 +4,6 @@ import 'response_parser.dart';
 import 'board.dart';
 
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:io';
 
 // create Controller class with start method
@@ -56,14 +55,8 @@ class Controller {
       if (response.statusCode == 200) {
         client.setResponse(response);
 
-        if (client.responseBody() != null) {
-          rp.setResponseInfo(client.responseBody());
-        } else {
-          ui.printVar('response body is null');
-          ui.errorMessage();
-          return false;
-        }
-      } else {
+        rp.setResponseInfo(client.responseBody());
+            } else {
         ui.errorMessage();
         ui.printVar('Invalid URL: ${response.statusCode}\n');
         return false;
