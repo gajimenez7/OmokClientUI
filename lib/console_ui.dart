@@ -50,6 +50,8 @@ class ConsoleUI {
     stdout.write('You selected: $selection\n\n');
   }
 
+  void printBoard() {}
+
   void errorMessage() {
     stdout.write('Error\n');
     stdout.write('\n');

@@ -1,6 +1,7 @@
 import 'console_ui.dart';
 import 'web_client.dart';
 import 'response_parser.dart';
+import 'board.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,24 +12,39 @@ class Controller {
   var client = WebClient();
   var ui = ConsoleUI();
   var rp = ResponseParser();
+  var board = Board();
+
+  bool validInputFlag = false;
 
   void start() async {
     ui.header();
     ui.welcome();
 
-    ui.promptURL(client.defaultServer());
+    while (!validInputFlag) {
+      validInputFlag = await urlInput();
+    }
 
-    await urlInput();
+    validInputFlag = false;
 
-    strategyInput();
+    while (!validInputFlag) {
+      validInputFlag = strategyInput();
+    }
 
-    movementInput();
+    validInputFlag = false;
+
+    while (!validInputFlag) {
+      validInputFlag = movementInput();
+    }
+
+    validInputFlag = false;
   }
 
-  Future<void> urlInput() async {
+  Future<bool> urlInput() async {
+    // user input for url or set default url if empty input
     String? url;
 
-    // user input for url or set default url if empty input
+    ui.promptURL(client.defaultServer());
+
     url = stdin.readLineSync();
     url = (!client.isValid(url)) ? client.defaultServer() : url;
 
@@ -45,18 +61,22 @@ class Controller {
         } else {
           ui.printVar('response body is null');
           ui.errorMessage();
+          return false;
         }
       } else {
         ui.errorMessage();
-        ui.printVar('Invalid URL: ${response.statusCode}');
+        ui.printVar('Invalid URL: ${response.statusCode}\n');
+        return false;
       }
     } catch (e) {
       ui.errorMessage();
-      ui.printVar('Exception: $e');
+      ui.printVar('Exception: $e \n');
+      return false;
     }
+    return true;
   }
 
-  void strategyInput() {
+  bool strategyInput() {
     String? line;
     // user input for strategies or smart (1) if empty
 
@@ -68,15 +88,18 @@ class Controller {
       var selection = int.parse(line);
       if (selection == 0 || selection > rp.strategies().length) {
         ui.invalidInput();
+        return false;
       } else {
         ui.selectedStrategy(rp.strategies()[selection - 1]);
       }
     } on FormatException {
       ui.invalidInput();
+      return false;
     }
+    return true;
   }
 
-  void movementInput() {
+  bool movementInput() {
     String? line;
 
     // user input for player movement
@@ -85,18 +108,23 @@ class Controller {
 
     if (line == null) {
       ui.invalidInput();
+      return false;
     } else {
       List<String> inputs = line.split(" ");
       try {
-        var mvSelection1 = int.parse(inputs[0]);
-        var mvSelection2 = int.parse(inputs[1]);
-        ui.printVar(mvSelection1);
-        ui.printVar(mvSelection2);
+        var mvSelect1 = int.parse(inputs[0]);
+        var mvSelect2 = int.parse(inputs[1]);
+
+        board.playerX = mvSelect1;
+        board.playerY = mvSelect2;
       } on FormatException {
         ui.invalidInput();
+        return false;
       } on RangeError {
         ui.invalidInput();
+        return false;
       }
     }
+    return true;
   }
 }
