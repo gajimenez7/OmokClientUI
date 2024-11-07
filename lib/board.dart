@@ -1,5 +1,6 @@
 import 'response_parser.dart';
 import 'console_ui.dart';
+import 'dart:io';
 
 class Board {
   var ui = ConsoleUI();
@@ -9,8 +10,8 @@ class Board {
 
   int size = 15;
 
-  int getSize(){
-      return size;
+  int getSize() {
+    return size;
   }
 
   var playerMoves = [[]];
@@ -22,20 +23,57 @@ class Board {
   var compX;
   var compY;
 
-  void startNewPlayer(){
-      playerMoves = List.generate(getSize(), (_) => List.filled(getSize(), 0));
+  void startNewPlayer() {
+    playerMoves = List.generate(getSize(), (_) => List.filled(getSize(), 0));
   }
 
-  void startNewComputer(){
-    computerMoves =  List.generate(getSize(), (_) => List.filled(getSize(), 0));
+  void startNewComputer() {
+    computerMoves = List.generate(getSize(), (_) => List.filled(getSize(), 0));
   }
+
   void playerAdd(int row, int column) {
     playerMoves.add([row, column]);
   }
+
   void computerAdd(int row, int column) {
     computerMoves.add([row, column]);
   }
-  void printPlayerCoords() {
+
+  void printBoard() {
+    var i;
+    stdout.write('       ');
+    for (var x = 0; x < getSize(); x++) {
+      if(x >= 9){
+        stdout.write('${x+1}  ');
+      } else{
+        stdout.write('${x+1}   ');
+      }
+    }
+    print('');
+    for (i = 0; i < getSize(); i++) {
+      if (i > 9) {
+        stdout.write('     +');
+      } else
+        stdout.write('     +');
+      for (var j = 0; j < getSize(); j++) {
+        stdout.write('---+');
+      }
+      print('');
+      if (i >= 9){
+        stdout.write('${i+1}   |');
+      } else
+        stdout.write('${i+1}    |');
+      for (var k = 0; k < getSize(); k++) {
+        stdout.write('   |');
+      }
+      print('');
+    }
+
+    stdout.write('     +');
+    for (var l = 0; l < getSize(); l++) {
+      stdout.write('---+');
+    }
+
     // for (var i = 0; i < playerCoords.length; i++) {
     //   for (var j = 0; j < playerCoords[i].length; j++) {
     //     stdout.write('${playerCoords[i][j]} ');
@@ -44,6 +82,7 @@ class Board {
     // }
     // print('\n');
     // got to fix this it shows funny :V
+    /*
     print("${List.generate(size, (i) => (i + 1).toString().padLeft(1)).join(' ')}");
     for (int row = 1; row <= size; row++) {
       String rowNumber = row.toString().padLeft(2);
@@ -60,6 +99,7 @@ class Board {
 
       print('$rowNumber ┼$rowContent┼');
     }
+    */
   }
 
   void validPlayerInput() {
@@ -69,11 +109,13 @@ class Board {
     }
   }
 
+  /*
   void printBoard() {
     playerMoves.forEach((element) {
       element.forEach(print);
     });
   }
+  */
 }
 
 void main() {
@@ -83,10 +125,10 @@ void main() {
 
   board.playerX = 10;
   board.playerY = 12;
-  board.playerAdd(10,12);
-  board.computerAdd(12,10);
+  board.playerAdd(10, 12);
+  board.computerAdd(12, 10);
 
   board.validPlayerInput();
 
-  board.printPlayerCoords();
+  board.printBoard();
 }

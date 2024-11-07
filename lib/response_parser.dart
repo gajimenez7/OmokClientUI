@@ -27,8 +27,8 @@ class ResponseParser {
     }
   }
 
-  void setBoardSize(){
-    try{
+  void setBoardSize() {
+    try {
       this.responseBoardSize = responseInfo['size'] as int;
     } catch (e) {
       ui.errorMessage();
@@ -44,7 +44,7 @@ class ResponseParser {
     return this.responseStrategies;
   }
 
-  int boardSize(){
+  int boardSize() {
     return this.responseBoardSize;
   }
 }
