@@ -56,7 +56,9 @@ class Controller {
         client.setResponse(response);
 
         rp.setResponseInfo(client.responseBody());
-            } else {
+        ui.printVar(rp.responseStrategies);
+        ui.printVar(rp.responseBoardSize);
+      } else {
         ui.errorMessage();
         ui.printVar('Invalid URL: ${response.statusCode}\n');
         return false;
@@ -110,6 +112,7 @@ class Controller {
 
         board.playerX = mvSelect1;
         board.playerY = mvSelect2;
+        board.validPlayerInput();
       } on FormatException {
         ui.invalidInput();
         return false;

@@ -8,14 +8,26 @@ class ResponseParser {
 
   var responseStrategies = [];
 
+  int responseBoardSize;
+
   void setResponseInfo(var responseBody) {
     this.responseInfo = json.decode(responseBody);
     setStrategies();
+    setBoardSize();
   }
 
   void setStrategies() {
     try {
       this.responseStrategies = responseInfo['strategies'];
+    } catch (e) {
+      ui.errorMessage();
+      ui.printVar(e);
+    }
+  }
+
+  void setBoardSize(){
+    try{
+      this.responseBoardSize = responseInfo['size'] as int;
     } catch (e) {
       ui.errorMessage();
       ui.printVar(e);
@@ -28,5 +40,9 @@ class ResponseParser {
 
   List strategies() {
     return this.responseStrategies;
+  }
+
+  int boardSize(){
+    return this.responseBoardSize;
   }
 }

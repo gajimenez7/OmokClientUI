@@ -1,12 +1,16 @@
 import 'dart:io';
+import 'response_parser.dart';
 import 'console_ui.dart';
 
 class Board {
   var ui = ConsoleUI();
+  var rp = ResponseParser();
 
-  var playerCoords = List.generate(15, (_) => List.filled(15, 0));
+  var boardSize = rp.boardSize();
 
-  var compCoords = List.generate(15, (_) => List.filled(15, 0));
+  var playerCoords = List.generate(boardSize, (_) => List.filled(boardSize, 0));
+
+  var compCoords = List.generate(boardSize, (_) => List.filled(boardSize, 0));
 
   var playerX;
   var playerY;
@@ -31,18 +35,16 @@ class Board {
       playerCoords[playerX][playerY] = 1;
     }
   }
+
+  void printBoard() {
+    playerCoords.forEach((element) {
+      element.forEach(print);
+    });
+  }
 }
 
 void main() {
-  var ui = ConsoleUI();
   var board = Board();
 
-  board.printPlayerCoords();
-
-  board.playerX = 10;
-  board.playerY = 12;
-
-  board.validPlayerInput();
-
-  board.printPlayerCoords();
+  board.printBoard();
 }
