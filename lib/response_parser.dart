@@ -8,7 +8,9 @@ class ResponseParser {
 
   var responseStrategies = [];
 
-  int responseBoardSize;
+  // int responseBoardSize;
+
+  int responseBoardSize = 15;
 
   void setResponseInfo(var responseBody) {
     this.responseInfo = json.decode(responseBody);
