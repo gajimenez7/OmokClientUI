@@ -2,6 +2,7 @@ import 'console_ui.dart';
 import 'response_parser.dart';
 
 import 'package:http/http.dart' as http;
+
 class WebClient {
   var ui = ConsoleUI();
 
@@ -12,33 +13,13 @@ class WebClient {
   var theResponseBody;
   var pid;
 
-  String gameUrl(String strategy){
+  String gameUrl(String strategy) {
     return '${newGameUrl}?strategy=${strategy}';
   }
 
   String playUrl(String pid, String x, String y) {
     return '${playGameUrl}?pid=${pid}&x=$x&y=$y';
   }
-
-  /*
-  void getURLTest(var url, ResponseParser rp) async {
-    try {
-      var response = await http.get(Uri.parse(url!));
-
-      if (response.statusCode == 200) {
-        setResponse(response);
-
-        rp.setResponseInfo(theResponseBody);
-      } else {
-        ui.errorMessage();
-        ui.printVar('Invalid URL: ${response.statusCode}\n');
-      }
-    } catch (e) {
-      ui.errorMessage();
-      ui.printVar('Exception: $e \n');
-    }
-  }
-  */
 
   Future<bool> getURL(var url, ResponseParser rp) async {
     try {
@@ -48,7 +29,6 @@ class WebClient {
         setResponse(response);
 
         rp.setResponseInfo(theResponseBody);
-
       } else {
         ui.errorMessage();
         ui.printVar('Invalid URL: ${response.statusCode}\n');

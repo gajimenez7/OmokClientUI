@@ -1,3 +1,5 @@
+import 'board.dart';
+
 import 'dart:io';
 
 class ConsoleUI {
@@ -50,6 +52,10 @@ class ConsoleUI {
     stdout.write('You selected: $selection\n\n');
   }
 
+  void computerMoves(var x, var y) {
+    stdout.write('Computer Chose: $x, $y\n');
+  }
+
   void errorMessage() {
     stdout.write('Error\n');
     stdout.write('\n');
@@ -62,7 +68,7 @@ class ConsoleUI {
 
   // board
 
-  void printBoard(int size, int playerX, int playerY) {
+  void printBoard(int size, Board board) {
     var i;
     stdout.write('\n');
 
@@ -96,8 +102,10 @@ class ConsoleUI {
 
       // print column lines
       for (var k = 0; k < size; k++) {
-        if(k + 1 == playerX && i + 1 == playerY){
+        if (board.playerMoves[i][k] == 1) {
           stdout.write(' x |');
+        } else if (board.computerMoves[i][k] == 1) {
+          stdout.write(' o |');
         } else
           stdout.write('   |');
       }
@@ -109,6 +117,25 @@ class ConsoleUI {
     for (var l = 0; l < size; l++) {
       stdout.write('---+');
     }
-    stdout.write('\n');
+    stdout.write('\n\n');
+  }
+
+  void playerSymbols() {
+    stdout.write('Player Symbol: x\n');
+    stdout.write('Computer Symbol: o\n\n');
+  }
+
+  void playerWon(var row) {
+    stdout.write('Congradulations, you won!\n');
+    stdout.write('The winning row is: ${row}');
+  }
+
+  void computerWon(var row) {
+    stdout.write('Aw man! You lose!\n');
+    stdout.write('The winning row is: ${row}');
+  }
+
+  void gameDraw() {
+    stdout.write('Draw! Better luck next time!\n');
   }
 }

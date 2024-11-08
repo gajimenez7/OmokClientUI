@@ -14,8 +14,8 @@ class Board {
   var playerX;
   var playerY;
 
-  var compX;
-  var compY;
+  var computerX;
+  var computerY;
 
   void startNewPlayer() {
     playerMoves = List.generate(getSize(), (_) => List.filled(getSize(), 0));
@@ -23,14 +23,6 @@ class Board {
 
   void startNewComputer() {
     computerMoves = List.generate(getSize(), (_) => List.filled(getSize(), 0));
-  }
-
-  void playerAdd(int row, int column) {
-    playerMoves.add([row, column]);
-  }
-
-  void computerAdd(int row, int column) {
-    computerMoves.add([row, column]);
   }
 
   void setSize(int s) {
@@ -46,5 +38,9 @@ class Board {
         computerMoves[playerX][playerY] == 0) {
       playerMoves[playerX][playerY] = 1;
     }
+  }
+
+  void addComputerMove() {
+    computerMoves[computerX][computerY] = 1;
   }
 }

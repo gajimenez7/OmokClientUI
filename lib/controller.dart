@@ -35,29 +35,35 @@ class Controller {
       validInputFlag = strategyInput();
     }
 
-    // game loop
-
     validInputFlag = false;
 
-    while(!validInputFlag) {
+    while (!validInputFlag) {
       validInputFlag = await startGame();
     }
 
-    validInputFlag = false;
+    board.startNewPlayer();
+    board.startNewComputer();
 
-    while (!validInputFlag) {
-      validInputFlag = movementInput();
+    // game loop
+    while (!rp.gameEnd()) {
+      validInputFlag = false;
+
+      while (!validInputFlag) {
+        ui.playerSymbols();
+        validInputFlag = movementInput();
+        validInputFlag = await nextMove();
+      }
+
+      ui.printBoard(board.getSize(), board);
     }
 
-    validInputFlag = false;
-
-    while (!validInputFlag) {
-      validInputFlag = await nextMove();
+    if (rp.playerWin) {
+      ui.playerWon(rp.playerRow);
+    } else if (rp.computerWin) {
+      ui.computerWon(rp.computerRow);
+    } else {
+      ui.gameDraw();
     }
-    ui.printVar(rp.responseInfo);
-
-    ui.printBoard(board.getSize(), board.playerX, board.playerY);
-
   }
 
   Future<bool> urlInput() {
@@ -99,7 +105,7 @@ class Controller {
     return true;
   }
 
-  Future<bool> startGame() async{
+  Future<bool> startGame() async {
     if (await client.getURL('${client.gameUrl(rp.selectedStrategy)}', rp)) {
       rp.setPID();
       return true;
@@ -107,9 +113,30 @@ class Controller {
     return false;
   }
 
-  Future <bool> nextMove() async{
-    if (await client.getURL('${client.playUrl(rp.pid, board.playerY.toString(), board.playerY.toString())}', rp)) {
-      return true;
+  Future<bool> nextMove() async {
+    try {
+      if (await client.getURL(
+          '${client.playUrl(rp.pid, board.playerX.toString(), board.playerY.toString())}',
+          rp)) {
+        // player moves
+        rp.playerWin = rp.responseInfo['ack_move']['isWin'];
+        rp.isDraw = rp.responseInfo['ack_move']['isDraw'];
+        rp.playerRow = rp.responseInfo['ack_move']['row'];
+
+        // computer moves
+        board.computerX = rp.responseInfo['move']['x'];
+        board.computerY = rp.responseInfo['move']['y'];
+        board.addComputerMove();
+        rp.computerWin = rp.responseInfo['move']['isWin'];
+        rp.computerRow = rp.responseInfo['move']['row'];
+
+        // print computer selection:
+        ui.computerMoves(board.computerX, board.computerY);
+
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
     return false;
   }
@@ -130,14 +157,10 @@ class Controller {
         int mvSelect1 = int.parse(inputs[0]);
         int mvSelect2 = int.parse(inputs[1]);
 
-        board.startNewPlayer();
-        board.startNewComputer();
-
         board.playerX = mvSelect1;
         board.playerY = mvSelect2;
 
         board.validPlayerInput();
-
       } on FormatException {
         ui.invalidInput();
         ui.printVar('Format Exception');

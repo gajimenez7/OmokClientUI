@@ -15,11 +15,15 @@ class ResponseParser {
 
   String pid = '';
 
-  bool isWin = false;
+  bool playerWin = false;
+
+  var playerRow = [];
+
+  bool computerWin = false;
+
+  var computerRow = [];
 
   bool isDraw = false;
-
-  // int responseBoardSize = 15;
 
   void setResponseInfo(var responseBody) {
     this.responseInfo = json.decode(responseBody);
@@ -43,7 +47,7 @@ class ResponseParser {
     }
   }
 
-  void setPID(){
+  void setPID() {
     try {
       pid = responseInfo['pid'];
     } catch (e) {
@@ -52,17 +56,8 @@ class ResponseParser {
     }
   }
 
-  void setWin(){
-    try {
-      pid = responseInfo['pid'];
-    } catch (e) {
-      ui.errorMessage();
-      ui.printVar(e);
-    }
-  }
-
-  void startGame(){
-
+  bool gameEnd() {
+    return playerWin || computerWin;
   }
 
   String info() {
