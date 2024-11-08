@@ -39,8 +39,7 @@ class Controller {
 
     validInputFlag = false;
 
-    board.printBoard();
-
+    ui.printBoard(board.getSize(), board.playerX, board.playerY);
   }
 
   Future<bool> urlInput() async {
@@ -120,12 +119,11 @@ class Controller {
         board.playerY = mvSelect2;
 
         board.validPlayerInput();
-
       } on FormatException {
         ui.invalidInput();
         ui.printVar('Format Exception');
         return false;
-      } on RangeError{
+      } on RangeError {
         ui.invalidInput();
         ui.printVar('Range Error');
         return false;
