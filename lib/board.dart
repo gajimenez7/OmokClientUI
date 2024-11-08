@@ -8,14 +8,18 @@ class Board {
 
   // var boardSize = rp.boardSize();
 
-  int size = 15;
+  int size = 0;
+
+  void setSize(int s){
+    this.size = s;
+  }
 
   int getSize() {
     return size;
   }
 
-  var playerMoves = [[]];
-  var computerMoves = [[]];
+  List<List<int>> playerMoves = [];
+  List<List<int>> computerMoves = [];
 
   var playerX;
   var playerY;
@@ -43,10 +47,10 @@ class Board {
     var i;
     stdout.write('       ');
     for (var x = 0; x < getSize(); x++) {
-      if(x >= 9){
-        stdout.write('${x+1}  ');
-      } else{
-        stdout.write('${x+1}   ');
+      if (x >= 9) {
+        stdout.write('${x + 1}  ');
+      } else {
+        stdout.write('${x + 1}   ');
       }
     }
     print('');
@@ -59,10 +63,10 @@ class Board {
         stdout.write('---+');
       }
       print('');
-      if (i >= 9){
-        stdout.write('${i+1}   |');
+      if (i >= 9) {
+        stdout.write('${i + 1}   |');
       } else
-        stdout.write('${i+1}    |');
+        stdout.write('${i + 1}    |');
       for (var k = 0; k < getSize(); k++) {
         stdout.write('   |');
       }
@@ -117,7 +121,7 @@ class Board {
   }
   */
 }
-
+/*
 void main() {
   var board = Board();
   board.startNewPlayer();
@@ -132,3 +136,4 @@ void main() {
 
   board.printBoard();
 }
+*/

@@ -25,6 +25,8 @@ class Controller {
 
     validInputFlag = false;
 
+    board.setSize(rp.boardSize());
+
     while (!validInputFlag) {
       validInputFlag = strategyInput();
     }
@@ -36,6 +38,9 @@ class Controller {
     }
 
     validInputFlag = false;
+
+    board.printBoard();
+
   }
 
   Future<bool> urlInput() async {
@@ -56,8 +61,6 @@ class Controller {
         client.setResponse(response);
 
         rp.setResponseInfo(client.responseBody());
-        ui.printVar(rp.responseStrategies);
-        ui.printVar(rp.responseBoardSize);
       } else {
         ui.errorMessage();
         ui.printVar('Invalid URL: ${response.statusCode}\n');
@@ -107,17 +110,24 @@ class Controller {
     } else {
       List<String> inputs = line.split(" ");
       try {
-        var mvSelect1 = int.parse(inputs[0]);
-        var mvSelect2 = int.parse(inputs[1]);
+        int mvSelect1 = int.parse(inputs[0]);
+        int mvSelect2 = int.parse(inputs[1]);
+
+        board.startNewPlayer();
+        board.startNewComputer();
 
         board.playerX = mvSelect1;
         board.playerY = mvSelect2;
+
         board.validPlayerInput();
+
       } on FormatException {
         ui.invalidInput();
+        ui.printVar('Format Exception');
         return false;
-      } on RangeError {
+      } on RangeError{
         ui.invalidInput();
+        ui.printVar('Range Error');
         return false;
       }
     }
