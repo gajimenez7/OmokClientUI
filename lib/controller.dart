@@ -25,10 +25,22 @@ class Controller {
 
     validInputFlag = false;
 
+    rp.setBoardSize();
+
     board.setSize(rp.boardSize());
+
+    // start new game
 
     while (!validInputFlag) {
       validInputFlag = strategyInput();
+    }
+
+    // game loop
+
+    validInputFlag = false;
+
+    while(!validInputFlag) {
+      validInputFlag = await startGame();
     }
 
     validInputFlag = false;
@@ -39,10 +51,16 @@ class Controller {
 
     validInputFlag = false;
 
+    while (!validInputFlag) {
+      validInputFlag = await nextMove();
+    }
+    ui.printVar(rp.responseInfo);
+
     ui.printBoard(board.getSize(), board.playerX, board.playerY);
+
   }
 
-  Future<bool> urlInput() async {
+  Future<bool> urlInput() {
     // user input for url or set default url if empty input
     String? url;
 
@@ -53,47 +71,47 @@ class Controller {
 
     if (client.isValid(url)) ui.defaultURL();
 
-    try {
-      var response = await http.get(Uri.parse(url!));
-
-      if (response.statusCode == 200) {
-        client.setResponse(response);
-
-        rp.setResponseInfo(client.responseBody());
-      } else {
-        ui.errorMessage();
-        ui.printVar('Invalid URL: ${response.statusCode}\n');
-        return false;
-      }
-    } catch (e) {
-      ui.errorMessage();
-      ui.printVar('Exception: $e \n');
-      return false;
-    }
-    return true;
+    return client.getURL(url, rp);
   }
 
   bool strategyInput() {
     String? line;
+    rp.setStrategies();
     // user input for strategies or smart (1) if empty
-
-    ui.promptStrategy(rp.strategies());
+    ui.promptStrategy(rp.responseStrategies);
 
     line = stdin.readLineSync();
     line = (line == null || line.isEmpty) ? '1' : line;
     try {
       var selection = int.parse(line);
+
       if (selection == 0 || selection > rp.strategies().length) {
         ui.invalidInput();
         return false;
       } else {
-        ui.selectedStrategy(rp.strategies()[selection - 1]);
+        rp.selectedStrategy = rp.strategies()[selection - 1];
+        ui.selectedStrategy(rp.selectedStrategy);
       }
     } on FormatException {
       ui.invalidInput();
       return false;
     }
     return true;
+  }
+
+  Future<bool> startGame() async{
+    if (await client.getURL('${client.gameUrl(rp.selectedStrategy)}', rp)) {
+      rp.setPID();
+      return true;
+    }
+    return false;
+  }
+
+  Future <bool> nextMove() async{
+    if (await client.getURL('${client.playUrl(rp.pid, board.playerY.toString(), board.playerY.toString())}', rp)) {
+      return true;
+    }
+    return false;
   }
 
   bool movementInput() {
@@ -119,6 +137,7 @@ class Controller {
         board.playerY = mvSelect2;
 
         board.validPlayerInput();
+
       } on FormatException {
         ui.invalidInput();
         ui.printVar('Format Exception');

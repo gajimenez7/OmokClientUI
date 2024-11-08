@@ -4,18 +4,25 @@ import 'console_ui.dart';
 
 class ResponseParser {
   var ui = ConsoleUI();
+
   var responseInfo;
 
   var responseStrategies = [];
 
+  String selectedStrategy = '';
+
   int responseBoardSize = 0;
+
+  String pid = '';
+
+  bool isWin = false;
+
+  bool isDraw = false;
 
   // int responseBoardSize = 15;
 
   void setResponseInfo(var responseBody) {
     this.responseInfo = json.decode(responseBody);
-    setStrategies();
-    setBoardSize();
   }
 
   void setStrategies() {
@@ -34,6 +41,28 @@ class ResponseParser {
       ui.errorMessage();
       ui.printVar(e);
     }
+  }
+
+  void setPID(){
+    try {
+      pid = responseInfo['pid'];
+    } catch (e) {
+      ui.errorMessage();
+      ui.printVar(e);
+    }
+  }
+
+  void setWin(){
+    try {
+      pid = responseInfo['pid'];
+    } catch (e) {
+      ui.errorMessage();
+      ui.printVar(e);
+    }
+  }
+
+  void startGame(){
+
   }
 
   String info() {

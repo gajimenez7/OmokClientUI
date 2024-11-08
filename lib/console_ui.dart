@@ -75,7 +75,7 @@ class ConsoleUI {
         stdout.write('${x + 1}   ');
       }
     }
-    print('');
+    stdout.write('\n');
 
     // print row lines
     for (i = 0; i < size; i++) {
@@ -86,7 +86,7 @@ class ConsoleUI {
       for (var j = 0; j < size; j++) {
         stdout.write('---+');
       }
-      print('');
+      stdout.write('\n');
 
       // side column numbers (y-axis)
       if (i >= 9) {
@@ -101,7 +101,7 @@ class ConsoleUI {
         } else
           stdout.write('   |');
       }
-      print('');
+      stdout.write('\n');
     }
 
     // print last row lines
@@ -109,5 +109,6 @@ class ConsoleUI {
     for (var l = 0; l < size; l++) {
       stdout.write('---+');
     }
+    stdout.write('\n');
   }
 }
