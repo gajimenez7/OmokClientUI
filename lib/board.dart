@@ -36,11 +36,11 @@ class Board {
   void validPlayerInput() {
     if (playerMoves[playerX][playerY] == 0 &&
         computerMoves[playerX][playerY] == 0) {
-      playerMoves[playerX][playerY] = 1;
+      playerMoves[playerX-1][playerY-1] = 1;
     }
   }
 
   void addComputerMove() {
-    computerMoves[computerX][computerY] = 1;
+    computerMoves[computerX-1][computerY-1] = 1;
   }
 }

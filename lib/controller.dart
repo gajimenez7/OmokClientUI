@@ -118,14 +118,21 @@ class Controller {
       if (await client.getURL(
           '${client.playUrl(rp.pid, board.playerX.toString(), board.playerY.toString())}',
           rp)) {
+
         // player moves
         rp.playerWin = rp.responseInfo['ack_move']['isWin'];
-        rp.isDraw = rp.responseInfo['ack_move']['isDraw'];
         rp.playerRow = rp.responseInfo['ack_move']['row'];
 
+        // check that player hasn't won
+        if (rp.playerWin) {
+            return true;
+        }
+
+        rp.isDraw = rp.responseInfo['ack_move']['isDraw'];
+
         // computer moves
-        board.computerX = rp.responseInfo['move']['x'];
-        board.computerY = rp.responseInfo['move']['y'];
+        board.computerX = rp.responseInfo['move']['x'] + 1;
+        board.computerY = rp.responseInfo['move']['y'] + 1;
         board.addComputerMove();
         rp.computerWin = rp.responseInfo['move']['isWin'];
         rp.computerRow = rp.responseInfo['move']['row'];
@@ -136,6 +143,7 @@ class Controller {
         return true;
       }
     } catch (e) {
+      ui.invalidInput();
       return false;
     }
     return false;

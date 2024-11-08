@@ -127,12 +127,28 @@ class ConsoleUI {
 
   void playerWon(var row) {
     stdout.write('Congradulations, you won!\n');
-    stdout.write('The winning row is: ${row}');
+    stdout.write('The winning row is: ');
+    // format print row
+    for (var i = 0; i < row.length; i++) {
+      if (i%2 != 1){
+        stdout.write('(${row[i]}, ');
+      } else {
+        stdout.write('${row[i]}) ');
+      }
+    }
   }
 
   void computerWon(var row) {
     stdout.write('Aw man! You lose!\n');
-    stdout.write('The winning row is: ${row}');
+    stdout.write('The winning row is: ');
+    // format print row
+    for (var i = 0; i < row.length; i++) {
+      if (i%2 != 1){
+        stdout.write('(${row[i]}, ');
+      } else {
+        stdout.write('${row[i]}) ');
+      }
+    }
   }
 
   void gameDraw() {
