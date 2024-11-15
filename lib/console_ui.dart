@@ -102,9 +102,11 @@ class ConsoleUI {
 
       // print column lines
       for (var k = 0; k < size; k++) {
-        if (board.playerMoves[i][k] == 1) {
+        if ((i + 1 <= 14 && k + 1 <= 14) &&
+            board.playerMoves[i + 1][k + 1] == 1) {
           stdout.write(' x |');
-        } else if (board.computerMoves[i][k] == 1) {
+        } else if ((i + 1 <= 14 && k + 1 <= 14) &&
+            board.computerMoves[i + 1][k + 1] == 1) {
           stdout.write(' o |');
         } else
           stdout.write('   |');
@@ -130,7 +132,7 @@ class ConsoleUI {
     stdout.write('The winning row is: ');
     // format print row
     for (var i = 0; i < row.length; i++) {
-      if (i%2 != 1){
+      if (i % 2 != 1) {
         stdout.write('(${row[i]}, ');
       } else {
         stdout.write('${row[i]}) ');
@@ -143,7 +145,7 @@ class ConsoleUI {
     stdout.write('The winning row is: ');
     // format print row
     for (var i = 0; i < row.length; i++) {
-      if (i%2 != 1){
+      if (i % 2 != 1) {
         stdout.write('(${row[i]}, ');
       } else {
         stdout.write('${row[i]}) ');

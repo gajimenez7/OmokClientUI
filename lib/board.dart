@@ -33,14 +33,17 @@ class Board {
     return size;
   }
 
-  void validPlayerInput() {
+  bool validPlayerInput() {
     if (playerMoves[playerX][playerY] == 0 &&
-        computerMoves[playerX][playerY] == 0) {
-      playerMoves[playerX-1][playerY-1] = 1;
+        computerMoves[playerX][playerY] != 1) {
+      playerMoves[playerX][playerY] = 1;
+
+      return true;
     }
+    return false;
   }
 
   void addComputerMove() {
-    computerMoves[computerX-1][computerY-1] = 1;
+    computerMoves[computerX][computerY] = 1;
   }
 }

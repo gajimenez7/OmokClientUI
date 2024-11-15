@@ -51,6 +51,11 @@ class Controller {
       while (!validInputFlag) {
         ui.playerSymbols();
         validInputFlag = movementInput();
+      }
+
+      validInputFlag = false;
+
+      while (!validInputFlag) {
         validInputFlag = await nextMove();
       }
 
@@ -118,14 +123,13 @@ class Controller {
       if (await client.getURL(
           '${client.playUrl(rp.pid, board.playerX.toString(), board.playerY.toString())}',
           rp)) {
-
         // player moves
         rp.playerWin = rp.responseInfo['ack_move']['isWin'];
         rp.playerRow = rp.responseInfo['ack_move']['row'];
 
         // check that player hasn't won
         if (rp.playerWin) {
-            return true;
+          return true;
         }
 
         rp.isDraw = rp.responseInfo['ack_move']['isDraw'];
@@ -168,7 +172,9 @@ class Controller {
         board.playerX = mvSelect1;
         board.playerY = mvSelect2;
 
-        board.validPlayerInput();
+        ui.printVar('');
+
+        return board.validPlayerInput();
       } on FormatException {
         ui.invalidInput();
         ui.printVar('Format Exception');
