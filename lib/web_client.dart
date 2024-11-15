@@ -18,7 +18,8 @@ class WebClient {
   }
 
   String playUrl(String pid, String x, String y) {
-    return '${playGameUrl}?pid=${pid}&x=$x&y=$y';
+    String thePlayUrl = '${playGameUrl}?pid=${pid}&x=$x&y=$y';
+    return thePlayUrl;
   }
 
   Future<bool> getURL(var url, ResponseParser rp) async {
